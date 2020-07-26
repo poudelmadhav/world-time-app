@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class WorldTime {
   String location; // location name for UI
@@ -16,17 +17,17 @@ class WorldTime {
           await get('https://worldtimeapi.org/api/timezone/$url');
       Map data = jsonDecode(response.body);
 
-      // set the local time property direcly given by world time
-      time = data['datetime'];
+      // get time properties data
+      String datetime = data['datetime'];
+      String offset1 = data['utc_offset'].substring(1, 3);
+      String offset2 = data['utc_offset'].substring(4, 6);
 
-      // // (ALTERNATIVE WAY) get properties from utc data and convert to local time
-      // String datetime = data['utc_datetime'];
-      // String offset1 = data['utc_offset'].substring(1, 3);
-      // String offset2 = data['utc_offset'].substring(4, 6);
+      DateTime now = DateTime.parse(datetime);
+      now = now.add(
+          Duration(hours: int.parse(offset1), minutes: int.parse(offset2)));
 
-      // DateTime now = DateTime.parse(datetime);
-      // now = now
-      //     .add(Duration(hours: int.parse(offset1), minutes: int.parse(offset2)));
+      // set time property
+      time = DateFormat.jm().format(now).toString();
     } catch (e) {
       print(e);
       time = 'Could\'t get time data';
