@@ -1,6 +1,6 @@
-# world_time
+# World Time App
 
-A new Flutter project.
+A flutter app to display time of different locations fetching from [worldtimeapi](https://worldtimeapi.org/api/timezone)
 
 ## Getting Started
 
