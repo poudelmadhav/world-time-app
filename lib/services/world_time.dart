@@ -24,8 +24,17 @@ class WorldTime {
       String offset2 = data['utc_offset'].substring(4, 6);
 
       DateTime now = DateTime.parse(datetime);
-      now = now.add(
-          Duration(hours: int.parse(offset1), minutes: int.parse(offset2)));
+
+      // get sign to subtract or add time
+      String sign = data['utc_offset'].substring(0, 1);
+
+      if (sign == "-") {
+        now = now.subtract(
+            Duration(hours: int.parse(offset1), minutes: int.parse(offset2)));
+      } else {
+        now = now.add(
+            Duration(hours: int.parse(offset1), minutes: int.parse(offset2)));
+      }
 
       // set time property
       isDayTime = now.hour > 6 && now.hour < 20 ? true : false;
